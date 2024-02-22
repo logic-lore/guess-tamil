@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+
+<head>
+	<script src="res/script/jquery.min.js"></script>
+	<meta name="viewport" content="initial-scale=2, maximum-scale=1.0, user-scalable=no" />
+	<style>
+		@font-face {
+			font-family: "Rubik";
+			src: url(res/fonts/Roboto-Medium.ttf);
+		}
+
+		html {
+			width: 100vw;
+			height: 100vh;
+			overflow: hidden;
+		}
+
+		body {
+			margin: 0;
+			width: 100vw;
+			height: 100vh;
+			overflow: hidden;
+			background-color: #f2f3fc;
+			font-family: Rubik;
+			font-weight: 1000;
+			color: #000000;
+			user-select: none;
+			-webkit-user-select: none;
+			-khtml-user-select: none;
+			-moz-user-select: none;
+			-ms-user-select: none;
+			font-weight: 400;
+		}
+
+		.coffee-bg {
+			display: flex;
+			align-items: center;
+		}
+
+		.coffee-txt {
+			background-color: white;
+			box-shadow: 0px 0px 4px #0000004d;
+			border-radius: 10px;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			font-size: small;
+			padding: 9px 9px;
+			transform-origin: right;
+			transform: scaleX(0);
+			animation: coffee-txt 2s ease 1;
+		}
+
+		@keyframes coffee-txt {
+			0% {
+				transform: scaleX(0);
+				opacity: 0;
+			}
+
+			20% {
+				transform: scaleX(1);
+				opacity: 1;
+			}
+
+			80% {
+				transform: scaleX(1);
+				opacity: 1;
+			}
+
+			100% {
+				transform: scaleX(0);
+				opacity: 1;
+			}
+		}
+
+		.coffee-img {
+			width: 50px;
+			height: 50px;
+			z-index: 10;
+			opacity: 0;
+			transition: all .2s ease;
+			transform: translateX(-10px);
+			transform-origin: center;
+		}
+
+		.coffee-img:active {
+			transition: none;
+			opacity: .6 !important;
+		}
+
+		.bg-img {
+			width: 100vw;
+			height: 100vh;
+			position: fixed;
+			top: 0;
+			left: 0;
+			transform: translateY(-100vh);
+			transition: all 1.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+		}
+
+		.ct-bg {
+			height: 90vh;
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: space-around;
+			align-content: space-evenly;
+		}
+
+		.ct {
+			width: 95vw;
+			max-width: 500PX;
+			height: 95px;
+			border-radius: 10px;
+			transition: all .3s;
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: space-around;
+			align-items: center;
+			margin-top: 2vh;
+			transform: scale(1.2);
+			opacity: 0;
+			transition: all 350ms ease;
+			position: relative;
+			color: white;
+			background: linear-gradient(229deg, rgba(111, 134, 245, 1) 0%, rgba(83, 111, 237, 1) 100%);
+			overflow: hidden;
+			box-shadow: 0px 0px 18px rgba(0, 0, 0, .3);
+		}
+
+		.ct:active {
+			transition: none;
+			opacity: .6 !important;
+		}
+
+		.ct-main-img {
+			width: 60px;
+			height: 60px;
+		}
+
+		.ct-img {
+			width: 30vw;
+			height: 30vw;
+			margin-bottom: 2vw;
+			border-radius: 10px;
+		}
+
+		.ct-txt {
+			width: 100px;
+			height: fit-content;
+			text-align: center;
+			font-size: x-large;
+			position: relative;
+		}
+
+		.score {
+			height: fit-content;
+			text-align: center;
+			font-size: x-large;
+		}
+
+		.mid {
+			width: 100vw;
+			height: 10vh;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+		}
+
+		.coins {
+			width: fit-content;
+			padding: .5vh 2vw;
+			background-color: white;
+			border-radius: 10px;
+			display: flex;
+			flex-wrap: nowrap;
+			align-items: center;
+			box-shadow: 0px 0px 4px #0000004d;
+			transition: all .6s ease;
+			opacity: 0;
+			margin-left: 4vw;
+		}
+
+		.coins:active {
+			transition: none;
+			opacity: .5 !important;
+		}
+
+		.add-img {
+			width: 35px;
+			height: 35px;
+			margin-left: 20px;
+		}
+		.no-ads-img {
+			width: 35px;
+			height: 35px;
+			transition: all 350ms ease;
+			opacity: 0;
+		} .no-ads-img:active {
+			transition: none;
+			opacity: .5 !important;
+		}
+		.coins-img {
+			width: 25px;
+			height: 25px;
+		}
+
+		#coins {
+			width: 15vw;
+			font-size: x-large;
+			transform: translateX(1.8vw);
+		}
+
+		.special-bg {
+			width: 10vh;
+			height: 10vh;
+			padding-right: 35px;
+			opacity: 0;
+			transition: all .6s ease;
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: center;
+		}
+
+		.special-img {
+			width: 10vh;
+			height: 10vh;
+		}
+
+		.back-img {
+			position: absolute;
+			top: 1vw;
+			left: 1vw;
+			width: 14vw;
+		}
+
+		@keyframes toast {
+			0% {
+				transform: scale(1.1);
+				opacity: 0;
+			}
+
+			100% {
+				transform: scale(1);
+				opacity: 1;
+			}
+		}
+
+		.ad-class {
+			width: 100%;
+			height: 50px;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			transition: all .6s ease;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="mid">
+		<div class="coins">
+			<img src="res/image/coins.webp" class="coins-img">
+			<div id="coins">0</div>
+			<img src="res/image/add.webp" class="add-img">
+		</div>
+		<img src="res/image/block.webp" class="no-ads-img">
+		<div class="coffee-bg">
+			<div class="coffee-txt">Support me!</div>
+			<img src="res/image/coffee.webp" class="coffee-img">
+		</div>
+		<!-- <div class="special-bg">
+		</div> -->
+	</div>
+
+	<div class="ct-bg">
+		<div class="ct ct1">
+			<img src="res/image/movie2.webp" class="ct-main-img">
+			<div class="ct-txt">MOVIE</div>
+			<div class="score"><span id="tamilMovieLevel">0</span></div>
+		</div>
+
+		<div class="ct ct2">
+			<img src="res/image/actor2.webp" class="ct-main-img">
+			<div class="ct-txt">ACTOR</div>
+			<div class="score"><span id="tamilActorLevel">0</span></div>
+		</div>
+
+		<div class="ct ct3">
+			<img src="res/image/actress.webp" class="ct-main-img">
+			<div class="ct-txt">ACTRESS</div>
+			<div class="score"><span id="tamilActressLevel">0</span></div>
+		</div>
+
+		<div class="ct ct4">
+			<img src="res/image/song.webp" class="ct-main-img">
+			<div class="ct-txt">SONGS</div>
+			<div class="score"><span id="tamilSongLevel">0</span></div>
+		</div>
+
+		<style>
+			.ad-bg {
+				width: 98vw;
+				max-width: 500px;
+				border-radius: 10px;
+				overflow: hidden;
+				transition: all 350ms ease;
+				animation: feedback 1s ease-in 1;
+			}
+
+			.ad-bg:active {
+				transition: none;
+				opacity: .5;
+			}
+
+			.rate-bg {
+				width: 85vw;
+				background: linear-gradient(90deg, rgba(111, 134, 245, 1) 0%, rgba(83, 111, 237, 1) 100%);
+				border-radius: 10px;
+				text-align: center;
+				padding: 2vh 0;
+				color: white;
+				transition: all 350ms ease;
+				animation: feedback 1s ease-in 1;
+				font-weight: 500;
+			}
+
+			.rate-bg:active {
+				transition: none;
+				opacity: .5;
+			}
+		</style>
+		<img src="res/ad/kodi.webp" class="ad-bg">
+		<div class="rate-bg">Rate us on Google play store</div>
+
+	</div><!--ct-bg closed-->
+	<audio id="button2" src="res/audio/button2.mp3"></audio>
+	<script src="movie/movie.js"></script>
+	<script src="actor/res/actor.js"></script>
+	<script src="actress/res/actress.js"></script>
+	<script src="song/res/song.js"></script>
+	<script>
+		setTimeout(function () { $('.coffee-img, .coins, .no-ads-img, .feedback, .special-bg').css({ opacity: '1' }); }, 200);
+		setTimeout(function () { $('.ct1').css({ 'transform': 'scale(1)', 'opacity': '1' }); }, 100);
+		setTimeout(function () { $('.ct2').css({ 'transform': 'scale(1)', 'opacity': '1' }); }, 200);
+		setTimeout(function () { $('.ct3').css({ 'transform': 'scale(1)', 'opacity': '1' }); }, 300);
+		setTimeout(function () { $('.ct4').css({ 'transform': 'scale(1)', 'opacity': '1' }); }, 400);
+		setTimeout(function () { $('.ct5').css({ 'transform': 'scale(1)', 'opacity': '1' }); }, 500);
+
+		if (localStorage.tamil_bought_coins == null) {
+			localStorage.tamil_bought_coins = 0;
+			localStorage.tamil_isAdRemoved = 0;
+		}
+
+		if (localStorage.tamilActorLevel == null) {
+			tamilActorLevel = 1;
+			localStorage.tamilActorLevel = tamilActorLevel;
+		}
+		tamilActorLevel = parseInt(localStorage.tamilActorLevel);
+		console.log(tamilActorLevel)
+		$("#tamilActorLevel").html(tamilActorLevel);
+
+		if (localStorage.tamilActressLevel == null) {
+			tamilActressLevel = 1;
+			localStorage.tamilActressLevel = tamilActressLevel;
+		}
+		tamilActressLevel = parseInt(localStorage.tamilActressLevel);
+		console.log(tamilActressLevel)
+		$("#tamilActressLevel").html(tamilActressLevel);
+
+		if (localStorage.tamilSongLevel == null) {
+			tamilSongLevel = 1;
+			localStorage.tamilSongLevel = tamilSongLevel;
+		}
+		tamilSongLevel = parseInt(localStorage.tamilSongLevel);
+		console.log(tamilSongLevel)
+		$("#tamilSongLevel").html(tamilSongLevel);
+
+		function FullHide() {
+			setTimeout(function () { $('.coffee-img, .coins, .no-ads-img, .feedback, .rate-bg, .buy-bg, .ad-bg, .special-bg, .ad-class').css({ opacity: '0' }); }, 200);
+			setTimeout(function () { $('.ct1').css({ 'transform': 'scale(1.2)', 'opacity': '0' }); }, 100);
+			setTimeout(function () { $('.ct2').css({ 'transform': 'scale(1.2)', 'opacity': '0' }); }, 200);
+			setTimeout(function () { $('.ct3').css({ 'transform': 'scale(1.2)', 'opacity': '0' }); }, 300);
+			setTimeout(function () { $('.ct4').css({ 'transform': 'scale(1.2)', 'opacity': '0' }); }, 400);
+			setTimeout(function () { $('.ct5').css({ 'transform': 'scale(1.2)', 'opacity': '0' }); }, 500);
+		}
+
+		localStorage.removeItem("ad");
+
+
+		if (localStorage.getItem("reward") === null) {
+			var reward = 0;
+			localStorage.setItem("reward", reward);
+			localStorage.setItem("GiveReward", 0);
+		} else {
+			var reward = localStorage.getItem("reward");
+		}
+
+		if (localStorage.getItem("tamilCoins") === null) {
+			coins = 10;
+			localStorage.setItem("tamilCoins", coins);
+			location.reload();
+		} else {
+			var coins = localStorage.getItem("tamilCoins");
+			document.getElementById("coins").innerHTML = coins;
+		}
+
+		$('.ct').click(function () {
+			document.getElementById("button2").play();
+			FullHide();
+		});
+
+		$('.coins, .buy-bg, .no-ads-img').click(function () {
+			document.getElementById("button2").play();
+			FullHide();
+			setTimeout(() => { parent.location = "get_coins.html"; }, 700);
+		});
+
+		var levels = parseInt(localStorage.getItem("tamilMovieLevel"));
+		if (localStorage.getItem("tamilMovieLevel") === null) {
+			levels = 1;
+			document.getElementById("tamilMovieLevel").innerHTML = "1";
+			parseInt(localStorage.setItem("tamilMovieLevel", levels));
+		} else { document.getElementById("tamilMovieLevel").innerHTML = levels; }
+
+		$('.ct1').click(function () {
+			if (levels <= levelTotal) {
+				setTimeout(function () {
+					parent.location = 'movie/movie.html';
+				}, 600);
+			} else {
+				setTimeout(function () {
+					parent.location = 'wait_update.html';
+				}, 600);
+			}
+		});
+
+		$(".ct2").click(function () {
+			if (tamilActorLevel <= tamilActorLevelTotal) {
+				setTimeout(function () {
+					parent.location = 'actor/actor_content.html';
+				}, 700);
+			} else {
+				setTimeout(function () {
+					parent.location = 'wait_update.html';
+				}, 600);
+			}
+		});
+		$(".ct3").click(function () {
+			if (tamilActressLevel <= tamilActressLevelTotal) {
+				setTimeout(function () {
+					parent.location = 'actress/actor_content.html';
+				}, 700);
+			} else {
+				setTimeout(function () {
+					parent.location = 'wait_update.html';
+				}, 600);
+			}
+		});
+
+		$(".ct4").click(function () {
+			if (tamilSongLevel <= tamilSongLevelTotal) {
+				setTimeout(function () {
+					parent.location = 'song/song_content.html';
+				}, 700);
+			} else {
+				setTimeout(function () {
+					parent.location = 'wait_update.html';
+				}, 600);
+			}
+		});
+
+		$('.coffee-img').click(function () {
+			setTimeout(() => {
+				parent.location = 'https://www.buymeacoffee.com/shameelAbid';
+			}, 400);
+		});
+
+		$(".rate-bg").click(function () {
+			setTimeout(() => {
+				parent.location = "https://play.google.com/store/apps/details?id=com.quec.guess.tamil";
+			}, 200);
+		});
+
+		$(".ad-bg").click(function () {
+			setTimeout(() => {
+				parent.location = 'https://play.google.com/store/apps/details?id=com.quec.kodi';
+			}, 200);
+		});
+
+		if (localStorage.Inter == 'NaN' || localStorage.Inter == NaN) {
+			localStorage.Inter = 1;
+		}
+	</script>
+</body>
+
+</html>

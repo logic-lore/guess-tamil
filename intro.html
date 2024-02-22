@@ -1,0 +1,58 @@
+<html>
+<head>
+	<script src="res/script/jquery.min.js"></script>
+<meta name="viewport" content="initial-scale=2, maximum-scale=1.0, user-scalable=no" />
+<style>
+    @font-face {
+			font-family: "Rubik";
+			src: url(res/fonts/Roboto-Medium.ttf);
+		}
+html {
+width:100vw; height:100vh;
+overflow:hidden;
+}
+         
+body {
+margin:0; width:100vw; height:100vh;
+overflow:hidden;
+background-color: #f2f3fc;
+display: flex;
+justify-content: center;
+align-items: center;
+font-family: Rubik;
+}
+.msg-con {
+    padding: 20px;
+}
+.update-btn {
+    padding: 10px 5px;
+    background: linear-gradient(229deg, rgba(111, 134, 245, 1) 0%, rgba(83, 111, 237, 1) 100%);
+    color: white;
+    text-align: center;
+    border-radius: 10px;
+    margin-top: 20px;
+    font-size: 25px;
+} .update-btn:active {
+    opacity: .5;
+}
+</style>
+</head>
+<body>
+    <div class="msg-con">
+        <div class="txt" style="font-size: 30px;">Please Update the App</div>
+        <div class="txt">
+            <p>Due to <b>Copyright strike,</b> This app got suspended from Play Store. </p>
+            <p>Update and use our new app to enjoy our service</p>
+            <p>Thank You.</p> 
+        </div>
+        <div class="update-btn">Update</div>
+    </div>
+<script>
+$(".update-btn").click(function() {
+    setTimeout(() => {
+        parent.location="https://play.google.com/store/apps/details?id=com.quec.guesstamil"
+    }, 400);
+});
+</script>
+</body>
+</html>
